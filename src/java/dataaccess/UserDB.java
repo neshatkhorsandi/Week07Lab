@@ -108,11 +108,11 @@ public class UserDB {
                 String fname = rs.getString(3);
                 String lname = rs.getString(4);
                 String password = rs.getString(5);
-                
+
                 int roleID = rs.getInt(6);
                 RoleDB roleDB = new RoleDB();
                 Role role = roleDB.getRole(roleID);
-                        
+
                 user = new User(userEmail, fname, lname, password, role);
                 user.setActive(active);
                 users.add(user);
@@ -153,16 +153,50 @@ public class UserDB {
                 String lname = rs.getString(4);
                 String password = rs.getString(5);
                 int roleID = rs.getInt(6);
-                
+
                 RoleDB roleDB = new RoleDB();
                 Role role = roleDB.getRole(roleID);
-                
-                
+
                 user = new User(userEmail, fname, lname, password, role);
                 user.setActive(active);
             }
 
             return user;
+        } finally {
+            connectionPool.freeConnection(connection);
+        }
+    }
+
+    public List<User> getActive() throws SQLException {
+        ConnectionPool connectionPool = null;
+        Connection connection = null;
+        try {
+            connectionPool = ConnectionPool.getInstance();
+            connection = connectionPool.getConnection();
+            User user;
+            ArrayList<User> users = new ArrayList<>();
+
+            String preparedQuery = "SELECT active, email, fname, lname, password, role FROM user_table WHERE active=true";
+            PreparedStatement ps = connection.prepareStatement(preparedQuery);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                boolean active = rs.getBoolean(1);
+                String userEmail = rs.getString(2);
+                String fname = rs.getString(3);
+                String lname = rs.getString(4);
+                String password = rs.getString(5);
+                int roleID = rs.getInt(6);
+
+                RoleDB roleDB = new RoleDB();
+                Role role = roleDB.getRole(roleID);
+
+                user = new User(userEmail, fname, lname, password, role);
+                user.setActive(active);
+                users.add(user);
+            }
+
+            return users;
         } finally {
             connectionPool.freeConnection(connection);
         }

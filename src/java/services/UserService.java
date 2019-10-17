@@ -32,7 +32,7 @@ public class UserService {
      */
     public List<User> getAll() throws Exception {
         UserDB db = new UserDB();
-        ArrayList<User> userList = (ArrayList<User>) db.getAll();
+        ArrayList<User> userList = (ArrayList<User>) db.getActive();
         ArrayList<User> activeUsers = new ArrayList<>();
         
         for (int i = 0; i < userList.size(); i++) {

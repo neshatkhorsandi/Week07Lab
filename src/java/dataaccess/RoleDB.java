@@ -41,5 +41,7 @@ public class RoleDB {
             connectionPool.freeConnection(connection);
         }
     }
+    
+ public boolean 
 
 }
