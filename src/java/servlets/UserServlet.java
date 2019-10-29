@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Role;
 import models.User;
 import services.UserService;
 
@@ -90,21 +91,24 @@ public class UserServlet extends HttpServlet {
     String fname = request.getParameter("fname");
     String lname = request.getParameter("lname");
     String password = request.getParameter("password");
-
+    String roleString = request.getParameter("roles");
+    Role role = new Role();
+    //Role role = request.getParameter("role");
+    //get role from roleID
     String action = request.getParameter("action");
     action = action == null ? "" : action;
 
     try {
       switch (action) {
         case "add":
-          if (checkIsValid(new String[]{email, fname, lname, password})) {
-            us.insert(email, fname, lname, password);
+          if (checkIsValid(new String[]{email, fname, lname, password,role.getRoleName()})) {
+            us.insert(email, fname, lname, password, role.getRoleID());
           } else {
             request.setAttribute("error", "All fields are required");
           }
         case "edit":
-          if (checkIsValid(new String[]{email, fname, lname})) {
-            us.update(email, fname, lname, password);
+          if (checkIsValid(new String[]{email, fname, lname, role.getRoleName()})) {
+            us.update(email, fname, lname, password, role.getRoleID());
           } else {
             request.setAttribute("error", "All fields are required");
           }
