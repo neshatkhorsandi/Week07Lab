@@ -4,9 +4,9 @@ CREATE DATABASE InventoryDB;
 USE InventoryDB;
 
 CREATE TABLE `role_table` (
-  `RoleID` int(11) NOT NULL,
-  `RoleName` varchar(25) NOT NULL,
-  PRIMARY KEY (`RoleID`)
+  `roleID` int(11) NOT NULL,
+  `roleName` varchar(25) NOT NULL,
+  PRIMARY KEY (`roleID`)
 );
 
 INSERT INTO `role_table` VALUES (1, 'system admin');
@@ -24,7 +24,7 @@ CREATE TABLE if not exists user_table (
 
     CONSTRAINT user_email_pk PRIMARY KEY (email),
     CONSTRAINT `FK_User_Role` FOREIGN KEY (`role`)
-        REFERENCES `role_table` (`RoleID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+        REFERENCES `role_table` (`roleID`) ON DELETE RESTRICT ON UPDATE RESTRICT
 
 );
 
